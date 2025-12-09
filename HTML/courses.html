@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mbosco University — Courses</title>
+
+  <!-- Font Awesome for icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+  /* ============================
+     COURSES PAGE (Scoped)
+     ============================ */
+  .courses-page {
+    --royal-blue: #003366;
+    --accent-gold: #ffd24d;
+    --soft-bg: #fbfbfd;
+    font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    color: #222;
+    margin: 0;
+  }
+
+  /* NAVBAR (scoped) */
+  .courses-page .navbar {
+    background: linear-gradient(90deg,var(--royal-blue), #0a3a66);
+    color: #fff;
+    padding: 12px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+  }
+  .courses-page .brand {
+    display:flex;
+    gap:12px;
+    align-items:center;
+  }
+  .courses-page .brand .logo-mark {
+    width:44px;height:44px;border-radius:8px;
+    background: linear-gradient(135deg,var(--accent-gold), #ffb300);
+    display:flex;align-items:center;justify-content:center;color:var(--royal-blue);
+    font-weight:700;box-shadow:0 3px 8px rgba(0,0,0,0.12);
+  }
+  .courses-page .brand .title { font-size:1.05rem; font-weight:700; color:var(--accent-gold); }
+
+  .courses-page .nav-actions {
+    display:flex;gap:16px;align-items:center;
+  }
+
+    #searchInput {
+  padding: 12px 15px;
+  width: 80%;
+  max-width: 400px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 16px;
+  margin: 20px auto;
+  display: block;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+  /* Accordion nav (desktop) */
+  .courses-page .accordion-nav {
+    display:flex;
+    gap:14px;
+    align-items:center;
+  }
+
+  .courses-page .hamburger {
+    display:none;
+    font-size:22px;
+    background:transparent;border:none;color:var(--accent-gold);
+    cursor:pointer;
+  }
+
+  /* Page header */
+  .courses-page .hero {
+    background: linear-gradient(90deg,var(--royal-blue), #0a3a66);
+    color: white;
+    padding: 48px 20px;
+    text-align: center;
+  }
+  .courses-page .hero h1 { margin:0;font-size:2rem; letter-spacing:0.6px; }
+  .courses-page .hero p { margin-top:8px; opacity:0.9; }
+
+  /* Main content */
+  .courses-page main {
+    max-width:1200px;
+    margin: 30px auto;
+    padding: 0 18px 60px;
+  }
+
+  .courses-page .intro {
+    display:flex;
+    align-items:flex-start;
+    gap:24px;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+  }
+  .courses-page .intro .lead {
+    flex:1 1 380px;
+    background:linear-gradient(180deg,#fff,#fff);
+    padding:18px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.04);
+  }
+  .courses-page .intro .lead h2 { color:var(--royal-blue); margin:0 0 6px; }
+  .courses-page .intro .lead p { margin:0;color:#444;line-height:1.55; }
+
+  /* The accordion list (faculty panels) */
+  .courses-page .accordion {
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:18px;
+  }
+
+  .courses-page .panel {
+    background:#fff;border-radius:12px;box-shadow:0 6px 24px rgba(10,30,70,0.06);
+    overflow:hidden;border:1px solid rgba(0,0,0,0.04);
+  }
+
+  .courses-page .panel > button.toggle {
+    display:flex;
+    gap:12px;
+    align-items:center;
+    width:100%;
+    border:0;
+    background:linear-gradient(90deg,#fff,#fff);
+    padding:18px;
+    text-align:left;
+    cursor:pointer;
+  }
+
+  .courses-page .panel > button.toggle:hover { background:linear-gradient(90deg,#fff9f0, #fff); }
+
+  .courses-page .panel .icon {
+    background: linear-gradient(135deg,var(--accent-gold), #ffb300);
+    color:var(--royal-blue);
+    width:56px;height:56px;border-radius:10px;display:inline-flex;
+    align-items:center;justify-content:center;font-size:20px;font-weight:700;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  }
+
+  .courses-page .toggle .title {
+    font-weight:700;color:var(--royal-blue);
+    font-size:1.05rem;
+  }
+
+  .courses-page .toggle .meta { margin-left:auto; color:#666; font-size:0.95rem; display:flex; align-items:center; gap:12px; }
+
+  .courses-page .panel .content {
+    max-height:0; overflow:hidden; transition: max-height .45s cubic-bezier(.2,.9,.2,1);
+    background:linear-gradient(180deg,#fff,#fff);
+    padding: 0 18px;
+  }
+
+  .courses-page .panel.open .content {
+    padding:14px 18px 22px;
+  }
+
+  .courses-page .courses-grid {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px;
+    margin-top:12px;
+  }
+
+  .courses-page .course-chip {
+    background:linear-gradient(90deg,#f5f7ff,#f0f5ff);
+    border-radius:8px;
+    padding:8px 10px;
+    font-size:0.95rem;
+    color:var(--royal-blue);
+    border:1px solid rgba(3,40,80,0.04);
+  }
+
+  /* footer (scoped) */
+  .courses-page .site-footer {
+    background: var(--royal-blue);
+    color: white;
+    padding:34px 20px;
+    margin-top:30px;
+  }
+  .courses-page .site-footer .footer-inner { max-width:1100px;margin:0 auto; display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap; }
+  .courses-page .site-footer h4 { color:var(--accent-gold); margin-bottom:8px; }
+  .courses-page .faculty-list { display:flex; gap:10px; flex-wrap:wrap; }
+  .courses-page .faculty-pill { background:var(--accent-gold); color:var(--royal-blue); padding:8px 12px; border-radius:999px; font-weight:600; font-size:0.92rem; }
+
+  /* small screen */
+  @media (max-width:900px) {
+    .courses-page .accordion { grid-template-columns: 1fr; }
+    .courses-page .nav-actions .accordion-nav { display:none; }
+    .courses-page .hamburger { display:inline-block; }
+    .courses-page .nav-mobile { display:none; background:#06294b; padding:14px; }
+    .courses-page .nav-mobile.open { display:block; }
+    .courses-page .panel > button.toggle { padding:12px; }
+    .courses-page .panel .icon { width:48px;height:48px;font-size:18px; }
+  }
+
+  /* open arrow rotate */
+  .courses-page .toggle .caret {
+    transition: transform .35s;
+    color: #666;
+  }
+  .courses-page .panel.open .toggle .caret {
+    transform: rotate(180deg);
+    color: var(--royal-blue);
+  }
+
+  /* subtle gold highlight on open */
+  .courses-page .panel.open { border:2px solid rgba(255,190,0,0.25); box-shadow: 0 12px 30px rgba(3,40,80,0.06); }
+
+  /* small helper */
+  .muted { color:#666; font-size:0.95rem; }
+
+  </style>
+</head>
+<body class="courses-page">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="brand">
+      <div class="logo-mark">MU</div>
+      <div>
+        <div class="title">Mbosco University</div>
+        <div style="font-size:12px;color:#e6e6e6;margin-top:2px">Established 2023 • Excellence & Integrity</div>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <div class="accordion-nav" aria-hidden="true">
+        <!-- top-level quick links -->
+        <a href="index.html" style="color:#fff;text-decoration:none;font-weight:600;margin-right:10px">Home</a>
+        <a href="about.html" style="color:#fff;text-decoration:none;font-weight:600;margin-right:6px">About</a>
+        <a href="graduates.html" style="color:#fff;text-decoration:none;font-weight:600">Graduates</a>
+      </div>
+
+      <button class="hamburger" aria-label="Open menu" onclick="toggleMobile()">☰</button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU (only used on small screens) -->
+  <div id="navMobile" class="nav-mobile" style="display:none; background:#06294b; color:#fff; padding:12px 18px;">
+    <strong style="color:var(--accent-gold)">Quick Faculties</strong>
+    <div style="margin-top:8px; display:flex;flex-wrap:wrap; gap:8px;">
+      <!-- quick links for mobile -->
+      <button style="background:var(--accent-gold);border:0;padding:8px 10px;border-radius:8px;color:var(--royal-blue);font-weight:600" onclick="document.getElementById('panel-science').scrollIntoView({behavior:'smooth'})">Science</button>
+      <button style="background:var(--accent-gold);border:0;padding:8px 10px;border-radius:8px;color:var(--royal-blue);font-weight:600" onclick="document.getElementById('panel-arts').scrollIntoView({behavior:'smooth'})">Arts</button>
+      <button style="background:var(--accent-gold);border:0;padding:8px 10px;border-radius:8px;color:var(--royal-blue);font-weight:600" onclick="document.getElementById('panel-engineering').scrollIntoView({behavior:'smooth'})">Engineering</button>
+      <!-- add more if wanted -->
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" role="region" aria-label="Courses hero">
+    <h1>Faculties & Courses</h1>
+    <p>Explore full undergraduate and postgraduate programmes across 15 faculties — click a faculty to view its courses.</p>
+  </section>
+
+  <main>
+    <div class="intro">
+      <div class="lead">
+        <!-- Add this at the top of your courses container -->
+<input type="text" id="searchInput" placeholder="Search for a course...">
+
+        <h2>Choose a Faculty</h2>
+        <p class="muted">Click any faculty card below to expand and view the full list of courses offered. The accordion opens one panel at a time for an easy focused browsing experience.</p>
+      </div>
+      <div style="min-width:220px; align-self:center">
+        <!--<p class="muted" style="text-align:right;">Theme: <strong style="color:var(--royal-blue)">&nbsp;Royal Blue & Gold</strong></p>-->
+      </div>
+    </div>
+
+    <!-- Accordion: one panel open at a time -->
+    <section class="accordion" id="facultiesAccordion">
+
+      <!-- FACULTY: Science -->
+      <article class="panel" id="panel-science">
+        <button class="toggle" aria-expanded="false" onclick="togglePanel(event,'panel-science')">
+          <span class="icon">Sc</span>
+          <div>
+            <div class="title">Faculty of Science</div>
+            <div class="muted">Biology, Chemistry, Physics, Math & more</div>
+          </div>
+          <div class="meta"><span class="muted">20 courses</span> <i class="fa-solid fa-chevron-down caret" style="margin-left:8px"></i></div>
+        </button>
+
+        <div class="content">
+          <div class="courses-grid">
+            <!-- a larger list (20 courses) -->
+            <div class="course-chip">B.Sc. Biology</div>
+            <div class="course-chip">B.Sc. Botany</div>
+            <div class="course-chip">B.Sc. Zoology</div>
+            <div class="course-chip">B.Sc. Microbiology</div>
+            <div class="course-chip">B.Sc. Biochemistry</div>
+            <div class="course-chip">B.Sc. Biotechnology</div>
+            <div class="course-chip">B.Sc. Chemistry</div>
+            <div class="course-chip">B.Sc. Industrial Chemistry</div>
+            <div class="course-chip">B.Sc. Physics</div>
+            <div class="course-chip">B.Sc. Applied Physics</div>
+            <div class="course-chip">B.Sc. Mathematics</div>
+            <div class="course-chip">B.Sc. Statistics</div>
+            <div class="course-chip">B.Sc. Geology</div>
+            <div class="course-chip">B.Sc. Earth Science</div>
+            <div class="course-chip">B.Sc. Environmental Science</div>
+            <div class="course-chip">M.Sc. Biology</div>
+            <div class="course-chip">M.Sc. Chemistry</div>
+            <div class="course-chip">M.Sc. Physics</div>
+            <div class="course-chip">Ph.D. Science (various)</div>
+            <div class="course-chip">Certificate & Short Courses (Lab Techniques)</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- FACULTY: Arts & Humanities -->
+      <article class="panel" id="panel-arts">
+        <button class="toggle" aria-expanded="false" onclick="togglePanel(event,'panel-arts')">
+          <span class="icon">Ar</span>
+          <div>
+            <div class="title">Faculty of Arts & Humanities</div>
+            <div class="muted">Languages, Literature, History, Philosophy & more</div>
+          </div>
+          <div class="meta"><span class="muted">12 courses</span> <i class="fa-solid fa-chevron-down caret"></i></div>
+        </button>
+
+        <div class="content">
+          <div class="courses-grid">
+            <div class="course-chip">B.A. English & Literary Studies</div>
+            <div class="course-chip">B.A. History & International Studies</div>
+            <div class="course-chip">B.A. Philosophy</div>
+            <div class="course-chip">B.A. Linguistics</div>
+            <div class="course-chip">B.A. Theatre Arts</div>
+            <div class="course-chip">B.A. Music</div>
+            <div class="course-chip">B.A. Fine & Applied Arts</div>
+            <div class="course-chip">M.A. English</div>
+            <div class="course-chip">M.A. History</div>
+            <div class="course-chip">Ph.D. Arts & Humanities</div>
+            <div class="course-chip">Diploma in Creative Writing</div>
+            <div class="course-chip">Certificate in Visual Arts</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- FACULTY: Engineering -->
+      <article class="panel" id="panel-engineering">
+        <button class="toggle" aria-expanded="false" onclick="togglePanel(event,'panel-engineering')">
+          <span class="icon">En</span>
+          <div>
+            <div class="title">Faculty of Engineering</div>
+            <div class="muted">Civil, Mechanical, Electrical, Chemical, Computer</div>
+          </div>
+          <div class="meta"><span class="muted">15 courses</span> <i class="fa-solid fa-chevron-down caret"></i></div>
+        </button>
+
+        <div class="content">
+          <div class="courses-grid">
+            <div class="course-chip">B.Eng. Civil Engineering</div>
+            <div class="course-chip">B.Eng. Mechanical Engineering</div>
+            <div class="course-chip">B.Eng. Electrical & Electronics Engineering</div>
+            <div class="course-chip">B.Eng. Chemical Engineering</div>
+            <div class="course-chip">B.Eng. Computer Engineering</div>
+            <div class="course-chip">B.Eng. Mechatronics</div>
+            <div class="course-chip">B.Eng. Industrial & Production Engineering</div>
+            <div class="course-chip">M.Eng. Structural Engineering</div>
+            <div class="course-chip">M.Eng. Power Systems</div>
+            <div class="course-chip">M.Eng. Environmental Engineering</div>
+            <div class="course-chip">Ph.D. Engineering</div>
+            <div class="course-chip">Professional Certificates (CAD, PLCs)</div>
+            <div class="course-chip">Short Course: Welding & Fabrication</div>
+            <div class="course-chip">Short Course: Robotics & Automation</div>
+            <div class="course-chip">Industrial Attachment / Internship</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- FACULTY: Medicine & Health Sciences -->
+      <article class="panel" id="panel-medicine">
+        <button class="toggle" aria-expanded="false" onclick="togglePanel(event,'panel-medicine')">
+          <span class="icon">Md</span>
+          <div>
+            <div class="title">Faculty of Medicine & Health Sciences</div>
+            <div class="muted">Medicine, Nursing, Public Health & allied sciences</div>
+          </div>
+          <div class="meta"><span class="muted">13 courses</span> <i class="fa-solid fa-chevron-down caret"></i></div>
+        </button>
+
+        <div class="content">
+          <div class="courses-grid">
+            <div class="course-chip">MBBS (Medicine & Surgery)</div>
+            <div class="course-chip">B.Sc Nursing</div>
+            <div class="course-chip">B.Sc. Medical Laboratory Science</div>
+            <div class="course-chip">B.Sc. Physiotherapy</div>
+            <div class="course-chip">B.Sc. Public Health</div>
+            <div class="course-chip">B.Sc. Radiography</div>
+            <div class="course-chip">M.Sc. Public Health</div>
+            <div class="course-chip">M.Sc. Clinical Sciences</div>
+            <div class="course-chip">Ph.D. Medical Sciences</div>
+            <div class="course-chip">Diploma: Community Health</div>
+            <div class="course-chip">Certificate: Emergency Care</div>
+            <div class="course-chip">Clinical Internship (Housemanship)</div>
+            <div class="course-chip">Continuing Professional Education</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- FACULTY: Law -->
+      <article class="panel" id="panel-law">
+        <button class="toggle" aria-expanded="false" onclick="togglePanel(event,'panel-law')">
+          <span class="icon">Lw</span>
+          <div>
+            <div class="title">Faculty of Law</div>
+            <div class="muted">LL.B and professional law training</div>
+          </div>
+          <div class="meta"><span class="muted">8 courses</span> <i class="fa-solid fa-chevron-down caret"></i></div>
+        </button>
+
+        <div class="content">
+          <div class="courses-grid">
+            <div class="course-chip">LL.B (Bachelor of Laws)</div>
+            <div class="course-chip">LL.M (Master of Laws)</div>
+            <div class="course-chip">Ph.D. Law</div>
+            <div class="course-chip">Diploma in Legal Studies</div>
+            <div class="course-chip">Certificate in Human Rights Law</div>
+            <div class="course-chip">Corporate & Commercial Law</div>
+            <div class="course-chip">Public International Law</div>
+            <div class="course-chip">Criminal Law & Procedure</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- FACULTY: Business & Management -->
+      <article class="panel" id="panel-business">
+        <button class="toggle" aria-expanded="false" onclick="togglePanel(event,'panel-business')">
+          <span class="icon">Bu</span>
+          <div>
+            <div class="title">Faculty of Business & Management</div>
+            <div class="muted">Accounting, Finance, Marketing, Management</div>
+          </div>
+          <div class="meta"><span class="muted">12 courses</span> <i class="fa-solid fa-chevron-down caret"></i></div>
+        </button>
+
+        <div class="content">
+          <div class="courses-grid">
+            <div class="course-chip">B.Sc. Accounting</div>
+            <div class="course-chip">B.Sc. Banking & Finance</div>
+            <div class="course-chip">B.Sc. Marketing</div>
+            <div class="course-chip">B.Sc. Business Administration</div>
+            <div class="course-chip">B.Sc. Economics</div>
+            <div class="course-chip">MBA (Master of Business Administration)</div>
+            <div class="course-chip">MSc Finance</div>
+            <div class="course-chip">Ph.D. Business Management</div>
+            <div class="course-chip">B.Sc. Entrepreneurship</div>
+            <div class="course-chip">Professional Programmes (ACCA,CIMA)</div>
+            <div class="course-chip">Short Course: Digital Marketing</div>
+            <div class="course-chip">Short Course: Business Analytics</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- FACULTY: Computer Science & IT -->
+      <article class="panel" id="panel-computer">
+        <button class="toggle" aria-expanded="false" onclick="togglePanel(event,'panel-computer')">
+          <span class="icon">CS</span>
+          <div>
+            <div class="title">Faculty of Computer Science & Informatics</div>
+            <div class="muted">Software Engineering, AI, Data Science, Cybersecurity</div>
+          </div>
+          <div class="meta"><span class="muted">14 courses</span> <i class="fa-solid fa-chevron-down caret"></i></div>
+        </button>
+
+        <div class="content">
+          <div class="courses-grid">
+            <div class="course-chip">B.Sc. Computer Science</div>
+            <div class="course-chip">B.Sc. Software Engineering</div>
+            <div class="course-chip">B.Sc. Information Systems</div>
+            <div class="course-chip">B.Sc. Cybersecurity</div>
+            <div class="course-chip">B.Sc. Data Science</div>
+            <div class="course-chip">B.Sc. Artificial Intelligence</div>
+            <div class="course-chip">M.Sc. Computer Science</div>
+            <div class="course-chip">M.Sc. Data Science</div>
+            <div class="course-chip">M.Sc. AI & Machine Learning</div>
+            <div class="course-chip">Ph.D. Computer Science</div>
+            <div class="course-chip">Certificate: Web Development</div>
+            <div class="course-chip">Certificate: Mobile App Development</div>
+            <div class="course-chip">Bootcamp: Cloud & DevOps</div>
+            <div class="course-chip">Internship & Capstone Projects</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- FACULTY: Education -->
+      <article class="panel" id="panel-education">
+        <button class="toggle" aria-expanded="false" onclick="togglePanel(event,'panel-education')">
+          <span class="icon">Ed</span>
+          <div>
+            <div class="title">Faculty of Education</div>
+            <div class="muted">Teacher training, curriculum, guidance & counselling</div>
+          </div>
+          <div class="meta"><span class="muted">9 courses</span> <i class="fa-solid fa-chevron-down caret"></i></div>
+        </button>
+
+        <div class="content">
+          <div class="courses-grid">
+            <div class="course-chip">B.Ed. Science Education</div>
+            <div class="course-chip">B.Ed. Arts Education</div>
+            <div class="course-chip">B.Ed. Early Childhood Education</div>
+            <div class="course-chip">M.Ed. Educational Management</div>
+            <div class="course-chip">M.Ed. Curriculum Studies</div>
+            <div class="course-chip">PGDE (Postgraduate Diploma in Education)</div>
+            <div class="course-chip">Certificate: Teaching Practice</div>
+            <div class="course-chip">Certificate: Special Needs Education</div>
+            <div class="course-chip">Guidance & Counseling Programmes</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- FACULTY: Agriculture -->
+      <article class="panel" id="panel-agriculture">
+        <button class="toggle" aria-expanded="false" onclick="togglePanel(event,'panel-agriculture')">
+          <span class="icon">Ag</span>
+          <div>
+            <div class="title">Faculty of Agriculture</div>
+            <div class="muted">Agronomy, Animal Science, Agribusiness</div>
+          </div>
+          <div class="meta"><span class="muted">11 courses</span> <i class="fa-solid fa-chevron-down caret"></i></div>
+        </button>
+
+        <div class="content">
+          <div class="courses-grid">
+            <div class="course-chip">B.Sc. Agriculture</div>
+            <div class="course-chip">B.Sc. Agronomy</div>
+            <div class="course-chip">B.Sc. Animal Science</div>
+            <div class="course-chip">B.Sc. Soil Science</div>
+            <div class="course-chip">B.Sc. Agricultural Economics</div>
+            <div class="course-chip">M.Sc. Crop Science</div>
+            <div class="course-chip">M.Sc. Agribusiness</div>
+            <div class="course-chip">Ph.D. Agriculture</div>
+            <div class="course-chip">Short Course: Farm Management</div>
+            <div class="course-chip">Extension & Rural Development Programs</div>
+            <div class="course-chip">Internship & Practical Attachments</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- FACULTY: Environmental Studies -->
+      <article class="panel" id="panel-environmental">
+        <button class="toggle" aria-expanded="false" onclick="togglePanel(event,'panel-environmental')">
+          <span class="icon">Ev</span>
+          <div>
+            <div class="title">Faculty of Environmental Studies</div>
+            <div class="muted">Planning, management & sustainability</div>
+          </div>
+          <div class="meta"><span class="muted">8 courses</span> <i class="fa-solid fa-chevron-down caret"></i></div>
+        </button>
+
+        <div class="content">
+          <div class="courses-grid">
+            <div class="course-chip">B.Sc. Environmental Management</div>
+            <div class="course-chip">B.Sc. Urban & Regional Planning</div>
+            <div class="course-chip">B.Sc. Estate Management</div>
+            <div class="course-chip">M.Sc. Environmental Management</div>
+            <div class="course-chip">Ph.D. Environmental Science</div>
+            <div class="course-chip">Certificate: GIS & Remote Sensing</div>
+            <div class="course-chip">Short Course: Climate Resilience</div>
+            <div class="course-chip">Sustainable Development Programs</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- FACULTY: Pharmacy -->
+      <article class="panel" id="panel-pharmacy">
+        <button class="toggle" aria-expanded="false" onclick="togglePanel(event,'panel-pharmacy')">
+          <span class="icon">Ph</span>
+          <div>
+            <div class="title">Faculty of Pharmacy</div>
+            <div class="muted">Pharmaceutical sciences & clinical pharmacy</div>
+          </div>
+          <div class="meta"><span class="muted">7 courses</span> <i class="fa-solid fa-chevron-down caret"></i></div>
+        </button>
+
+        <div class="content">
+          <div class="courses-grid">
+            <div class="course-chip">B.Pharm (Pharmacy)</div>
+            <div class="course-chip">M.Sc. Pharmacology</div>
+            <div class="course-chip">M.Sc. Pharmaceutical Chemistry</div>
+            <div class="course-chip">Clinical Pharmacy Programs</div>
+            <div class="course-chip">Ph.D. Pharmaceutical Sciences</div>
+            <div class="course-chip">Diploma in Pharmacy Technician</div>
+            <div class="course-chip">Short Course: Pharmacy Practice</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- FACULTY: Nursing & Allied Health -->
+      <article class="panel" id="panel-nursing">
+        <button class="toggle" aria-expanded="false" onclick="togglePanel(event,'panel-nursing')">
+          <span class="icon">Nu</span>
+          <div>
+            <div class="title">Faculty of Nursing & Allied Health</div>
+            <div class="muted">Nursing, physiotherapy, medical lab sciences</div>
+          </div>
+          <div class="meta"><span class="muted">9 courses</span> <i class="fa-solid fa-chevron-down caret"></i></div>
+        </button>
+
+        <div class="content">
+          <div class="courses-grid">
+            <div class="course-chip">B.Sc Nursing</div>
+            <div class="course-chip">B.Sc. Medical Laboratory Science</div>
+            <div class="course-chip">B.Sc. Physiotherapy</div>
+            <div class="course-chip">B.Sc. Radiography</div>
+            <div class="course-chip">M.Sc. Nursing</div>
+            <div class="course-chip">Ph.D. in Allied Health</div>
+            <div class="course-chip">Short Course: Patient Care</div>
+            <div class="course-chip">Certificate: Community Health</div>
+            <div class="course-chip">Clinical Attachments</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- FACULTY: Architecture & Built Environment -->
+      <article class="panel" id="panel-architecture">
+        <button class="toggle" aria-expanded="false" onclick="togglePanel(event,'panel-architecture')">
+          <span class="icon">Ar</span>
+          <div>
+            <div class="title">Faculty of Architecture & Built Environment</div>
+            <div class="muted">Architecture, building technology, urban design</div>
+          </div>
+          <div class="meta"><span class="muted">9 courses</span> <i class="fa-solid fa-chevron-down caret"></i></div>
+        </button>
+
+        <div class="content">
+          <div class="courses-grid">
+            <div class="course-chip">B.Arch (Architecture)</div>
+            <div class="course-chip">B.Sc. Building Technology</div>
+            <div class="course-chip">B.Sc. Quantity Surveying</div>
+            <div class="course-chip">M.Sc. Urban Design</div>
+            <div class="course-chip">Ph.D. Architecture</div>
+            <div class="course-chip">Short Course: Sustainable Design</div>
+            <div class="course-chip">Internships & Studios</div>
+            <div class="course-chip">Professional Practice Programs</div>
+            <div class="course-chip">Construction Management</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- FACULTY: Communication & Media -->
+      <article class="panel" id="panel-communication">
+        <button class="toggle" aria-expanded="false" onclick="togglePanel(event,'panel-communication')">
+          <span class="icon">Cm</span>
+          <div>
+            <div class="title">Faculty of Communication & Media</div>
+            <div class="muted">Journalism, PR, Broadcasting, Advertising</div>
+          </div>
+          <div class="meta"><span class="muted">10 courses</span> <i class="fa-solid fa-chevron-down caret"></i></div>
+        </button>
+
+        <div class="content">
+          <div class="courses-grid">
+            <div class="course-chip">B.Sc. Mass Communication</div>
+            <div class="course-chip">B.Sc. Journalism</div>
+            <div class="course-chip">B.Sc. Broadcast Media</div>
+            <div class="course-chip">B.Sc. Public Relations</div>
+            <div class="course-chip">B.Sc. Advertising</div>
+            <div class="course-chip">M.Sc. Media Studies</div>
+            <div class="course-chip">Certificate: Podcasting & New Media</div>
+            <div class="course-chip">Short Course: Media Production</div>
+            <div class="course-chip">Social Media Strategy Programs</div>
+            <div class="course-chip">Internship: Campus Media House</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- FACULTY: Social Sciences -->
+      <article class="panel" id="panel-social">
+        <button class="toggle" aria-expanded="false" onclick="togglePanel(event,'panel-social')">
+          <span class="icon">Ss</span>
+          <div>
+            <div class="title">Faculty of Social Sciences</div>
+            <div class="muted">Politics, Sociology, Psychology, International Relations</div>
+          </div>
+          <div class="meta"><span class="muted">11 courses</span> <i class="fa-solid fa-chevron-down caret"></i></div>
+        </button>
+
+        <div class="content">
+          <div class="courses-grid">
+            <div class="course-chip">B.Sc. Political Science</div>
+            <div class="course-chip">B.Sc. Sociology</div>
+            <div class="course-chip">B.Sc. Psychology</div>
+            <div class="course-chip">B.Sc. International Relations</div>
+            <div class="course-chip">B.Sc. Social Work</div>
+            <div class="course-chip">M.Sc. Sociology</div>
+            <div class="course-chip">M.Sc. Psychology</div>
+            <div class="course-chip">Ph.D. Social Science</div>
+            <div class="course-chip">Certificate: Conflict Resolution</div>
+            <div class="course-chip">Urban Studies</div>
+            <div class="course-chip">Policy Analysis & Governance</div>
+          </div>
+        </div>
+      </article>
+
+    </section> <!-- /accordion -->
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div style="flex:1 1 360px">
+        <h4>About Mbosco University</h4>
+        <p style="margin:0;color:#e6edf7">Established 2023 — Mbosco University blends academic excellence with moral leadership. Explore our faculties and courses to find your path.</p>
+      </div>
+
+      <div style="flex:1 1 360px">
+        <h4>All Faculties</h4>
+        <div class="faculty-list" aria-hidden="false">
+          <span class="faculty-pill">Science</span>
+          <span class="faculty-pill">Arts</span>
+          <span class="faculty-pill">Engineering</span>
+          <span class="faculty-pill">Medicine</span>
+          <span class="faculty-pill">Law</span>
+          <span class="faculty-pill">Business</span>
+          <span class="faculty-pill">Computer Science</span>
+          <span class="faculty-pill">Education</span>
+          <span class="faculty-pill">Agriculture</span>
+          <span class="faculty-pill">Environmental</span>
+          <span class="faculty-pill">Pharmacy</span>
+          <span class="faculty-pill">Nursing</span>
+          <span class="faculty-pill">Architecture</span>
+          <span class="faculty-pill">Communication</span>
+          <span class="faculty-pill">Social Sciences</span>
+        </div>
+      </div>
+
+      <div style="flex:1 1 240px; text-align:right;">
+        <h4>Contact</h4>
+        <p style="margin:0;color:#e6edf7">📍 Uyo, Akwa Ibom State, Nigeria</p>
+        <p style="margin:0;color:#e6edf7">✉ info@mboscouniversity.edu.ng</p>
+        <p style="margin:0;color:#e6edf7">📞 +234 901 234 5678</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- simple JS (scoped) -->
+  <script>
+  (function(){
+    const panels = document.querySelectorAll('.courses-page .panel');
+    const mobileNav = document.getElementById('navMobile');
+
+    // toggle mobile navigation
+    window.toggleMobile = function(){
+      if(!mobileNav) return;
+      mobileNav.classList.toggle('open');
+      mobileNav.style.display = mobileNav.classList.contains('open') ? 'block' : 'none';
+    };
+
+    // helper: close all panels
+    function closeAll() {
+      panels.forEach(p=> {
+        p.classList.remove('open');
+        const content = p.querySelector('.content');
+        if(content) content.style.maxHeight = null;
+        const btn = p.querySelector('.toggle');
+        if(btn) btn.setAttribute('aria-expanded','false');
+      });
+    }
+
+    // open a panel by id
+    window.togglePanel = function(ev, id) {
+      // allow keyboard and click events
+      const panel = document.getElementById(id);
+      if(!panel) return;
+      const isOpen = panel.classList.contains('open');
+
+      // single-open behavior: close others first
+      closeAll();
+
+      if(!isOpen) {
+        panel.classList.add('open');
+        const content = panel.querySelector('.content');
+        if(content) {
+          // temporarily set maxHeight so transition runs
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
+        const btn = panel.querySelector('.toggle');
+        if(btn) btn.setAttribute('aria-expanded','true');
+      }
+    };
+
+    // allow opening panels by clicking the heading (improve accessibility)
+    document.querySelectorAll('.courses-page .panel > button.toggle').forEach(btn=>{
+      btn.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const parent = btn.closest('.panel');
+          if(parent) togglePanel(null, parent.id);
+        }
+      });
+    });
+
+    // Initially close all
+    closeAll();
+
+    // optional: open first panel on larger screens
+    if(window.innerWidth > 900) {
+      const first = document.querySelector('.courses-page .panel');
+      if(first) togglePanel(null, first.id);
+    }
+
+    // close if clicked outside content (for mobile user nicety)
+    document.addEventListener('click', function(e){
+      const target = e.target;
+      // if click outside any panel toggle and not on toggle, close all (only on small screens)
+      if(window.innerWidth <= 900) {
+        const isInside = target.closest('.panel') || target.closest('.nav-mobile') || target.closest('.hamburger');
+        if(!isInside) closeAll();
+      }
+    });
+
+    // Recompute maxHeight on resize if a panel is open
+    window.addEventListener('resize', function(){
+      panels.forEach(p=>{
+        if(p.classList.contains('open')) {
+          const content = p.querySelector('.content');
+          if(content) content.style.maxHeight = content.scrollHeight + 'px';
+        }
+      });
+    });
+  })();
+
+ // Accordion functionality
+const accordions = document.querySelectorAll('.accordion');
+accordions.forEach((accordion) => {
+  accordion.addEventListener('click', function() {
+    accordions.forEach(acc => {
+      if (acc !== this) {
+        acc.classList.remove('active');
+        acc.nextElementSibling.style.maxHeight = null;
+      }
+    });
+
+    this.classList.toggle('active');
+    const panel = this.nextElementSibling;
+    if (this.classList.contains('active')) {
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+    } else {
+      panel.style.maxHeight = null;
+    }
+  });
+});
+
+// Updated search filter for courses
+document.getElementById('searchInput').addEventListener('keyup', function() {
+  const filter = this.value.toLowerCase();
+  const panels = document.querySelectorAll('.panel');
+
+  panels.forEach(panel => {
+    const items = panel.querySelectorAll('li');
+    let hasVisible = false;
+
+    items.forEach(item => {
+      const text = item.textContent.toLowerCase();
+      if (text.includes(filter)) {
+        item.style.display = '';
+        hasVisible = true;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+
+    // Open the panel if any item inside matches
+    if (hasVisible) {
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+      panel.previousElementSibling.classList.add('active'); // highlight accordion
+    } else {
+      panel.style.maxHeight = null;
+      panel.previousElementSibling.classList.remove('active');
+    }
+  });
+});
+
+  </script>
+</body>
+</html>

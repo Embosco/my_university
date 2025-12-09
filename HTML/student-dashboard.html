@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dashboard | Mbosco University</title>
+  <link rel="stylesheet" href="CSS/styles.css" />
+</head>
+<body class="dashboard-body">
+  <header class="dashboard-header">
+    <h1>Mbosco University</h1>
+    <nav class="dashboard-nav">
+      <ul>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Courses</a></li>
+        <li><a href="#">Results</a></li>
+        <li><a href="#">Fees</a></li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="login.html" class="logout-btn">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="dashboard-main">
+    <section class="welcome-card">
+      <h2>Welcome, Student!</h2>
+      <p>Here’s your academic summary and quick access to key features.</p>
+    </section>
+
+    <section class="grid-section">
+      <div class="card">
+        <h3>Enrolled Courses</h3>
+        <ul>
+          <li>CSC 201 – Data Structures</li>
+          <li>MTH 202 – Linear Algebra</li>
+          <li>GST 203 – Entrepreneurship</li>
+        </ul>
+        <button class="btn">View All</button>
+      </div>
+
+      <div class="card">
+        <h3>Recent Results</h3>
+        <p><strong>GPA:</strong> 4.52</p>
+        <p><strong>CGPA:</strong> 4.67</p>
+        <button class="btn">View Details</button>
+      </div>
+
+      <div class="card">
+        <h3>Fee Payment</h3>
+        <p>Your tuition status: <strong>Paid ✅</strong></p>
+        <button class="btn">View Receipt</button>
+      </div>
+
+      <div class="card">
+        <h3>Announcements</h3>
+        <ul>
+          <li>📅 Exam starts 28th October 2025</li>
+          <li>🎓 Convocation holds 10th November 2025</li>
+          <li>🧾 Course registration closes 25th October</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="dashboard-footer">
+    <p>© 2025 Mbosco University. All rights reserved.</p>
+  </footer>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

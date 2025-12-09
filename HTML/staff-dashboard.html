@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff Dashboard | Mbosco University</title>
+  <link rel="stylesheet" href="CSS/styles.css" />
+</head>
+<body class="dashboard-body">
+  <header class="dashboard-header staff">
+    <h1>Mbosco University</h1>
+    <nav class="dashboard-nav">
+      <ul>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Courses</a></li>
+        <li><a href="#">Upload Results</a></li>
+        <li><a href="#">Student Reports</a></li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="login.html" class="logout-btn">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="dashboard-main">
+    <section class="welcome-card">
+      <h2>Welcome, Lecturer!</h2>
+      <p>Manage your classes, upload results, and communicate with students.</p>
+    </section>
+
+    <section class="grid-section">
+      <div class="card">
+        <h3>My Courses</h3>
+        <ul>
+          <li>CSC 101 – Introduction to Computing</li>
+          <li>CSC 203 – Database Systems</li>
+          <li>CSC 305 – Web Development</li>
+        </ul>
+        <button class="btn">View All</button>
+      </div>
+
+      <div class="card">
+        <h3>Upload Results</h3>
+        <p>Upload new result sheets or edit past results.</p>
+        <button class="btn">Upload Now</button>
+      </div>
+
+      <div class="card">
+        <h3>Student Performance</h3>
+        <p>Average GPA this semester: <strong>4.23</strong></p>
+        <button class="btn">View Analytics</button>
+      </div>
+
+      <div class="card">
+        <h3>Announcements</h3>
+        <ul>
+          <li>📅 Senate meeting - Monday 21st Oct</li>
+          <li>🧾 Staff appraisal due 30th Oct</li>
+          <li>💬 New staff portal updates coming soon</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="dashboard-footer">
+    <p>© 2025 Mbosco University. All rights reserved.</p>
+  </footer>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

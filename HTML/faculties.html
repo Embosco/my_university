@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Faculties | Mbosco University</title>
+  <link rel="stylesheet" href="CSS/styles.css" />
+</head>
+<body>
+
+  <header class="fac-header">
+    <h1>Explore Our Faculties</h1>
+    <p>Excellence. Integrity. Leadership. — Mbosco University</p>
+  </header>
+
+  <section class="faculties-grid">
+    <div class="faculty-card" onclick="openModal('science')">
+      <h3>Faculty of Science</h3>
+      <p>Innovation through research and discovery.</p>
+    </div>
+    <div class="faculty-card" onclick="openModal('arts')">
+      <h3>Faculty of Arts</h3>
+      <p>Celebrating creativity, culture, and expression.</p>
+    </div>
+    <div class="faculty-card" onclick="openModal('engineering')">
+      <h3>Faculty of Engineering</h3>
+      <p>Designing sustainable solutions for tomorrow.</p>
+    </div>
+    <div class="faculty-card" onclick="openModal('law')">
+      <h3>Faculty of Law</h3>
+      <p>Training leaders in justice and fairness.</p>
+    </div>
+    <div class="faculty-card" onclick="openModal('medicine')">
+      <h3>Faculty of Medicine</h3>
+      <p>Dedicated to healthcare and medical excellence.</p>
+    </div>
+    <div class="faculty-card" onclick="openModal('education')">
+      <h3>Faculty of Education</h3>
+      <p>Building tomorrow’s teachers and mentors.</p>
+    </div>
+    <div class="faculty-card" onclick="openModal('business')">
+      <h3>Faculty of Business Administration</h3>
+      <p>Empowering innovators and entrepreneurs.</p>
+    </div>
+    <div class="faculty-card" onclick="openModal('computer')">
+      <h3>Faculty of Computer Science</h3>
+      <p>Transforming the world through technology.</p>
+    </div>
+    <div class="faculty-card" onclick="openModal('social')">
+      <h3>Faculty of Social Sciences</h3>
+      <p>Exploring human behavior and society.</p>
+    </div>
+    <div class="faculty-card" onclick="openModal('nursing')">
+      <h3>Faculty of Nursing</h3>
+      <p>Providing compassionate health services.</p>
+    </div>
+    <div class="faculty-card" onclick="openModal('pharmacy')">
+      <h3>Faculty of Pharmacy</h3>
+      <p>Innovating medicine for global health.</p>
+    </div>
+    <div class="faculty-card" onclick="openModal('theology')">
+      <h3>Faculty of Theology</h3>
+      <p>Raising ethical and spiritual leaders.</p>
+    </div>
+    <div class="faculty-card" onclick="openModal('communication')">
+      <h3>Faculty of Communication</h3>
+      <p>Mastering media and digital storytelling.</p>
+    </div>
+    <div class="faculty-card" onclick="openModal('agriculture')">
+      <h3>Faculty of Agriculture</h3>
+      <p>Promoting food security and sustainability.</p>
+    </div>
+    <div class="faculty-card" onclick="openModal('environmental')">
+      <h3>Faculty of Environmental Studies</h3>
+      <p>Protecting the planet through innovation.</p>
+    </div>
+  </section>
+
+  <section class="meet-lecturers">
+    <h2>Meet Our Global award winning Lecturers</h2>
+    <p>Leaders, Mentors, and Scholars — Inspiring Generations.</p>
+
+    <div class="lecturers-grid">
+      <div class="lecturer-card">
+        <img src="images/profwi.jpg" alt="Lecturer 1">
+        <h4>Prof. Williams Edward</h4>
+        <p>Dean, Faculty of Science</p>
+      </div>
+      <div class="lecturer-card">
+        <img src="images/profemeka.jpg" alt="Lecturer 2">
+        <h4>Dr. Emeka Johnson</h4>
+        <p>Head, Faculty of Arts</p>
+      </div>
+      <div class="lecturer-card">
+        <img src="images/profmary.jpg" alt="Lecturer 3">
+        <h4>Prof. Mary Okon</h4>
+        <p>Lecturer, Faculty of Law</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="fac-footer">
+    <p>&copy; 2025 Mbosco University | Excellence in Learning and Leadership</p>
+  </footer>
+
+  <!-- Modal Structure -->
+  <div id="facultyModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <p id="modalText"></p>
+    </div>
+  </div>
+<a href="index.html" class="back-home-btn">← Back to Home</a>
+  <script src="javascript/faculties.js"></script>
+</body>
+</html>

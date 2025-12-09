@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mbosco University | Login & Sign Up</title>
+  <link rel="stylesheet" href="CSS/styles.css" />
+</head>
+<body class="login-body">
+  <div class="login-container">
+    <h1 class="login-title">Welcome to Mbosco University</h1>
+    <p class="login-sub" id="formTitle">Login to continue</p>
+
+    <!-- LOGIN FORM -->
+    <form id="loginForm">
+      <div class="input-group">
+        <label for="role">Login As</label>
+        <select id="role" required>
+          <option value="">Select Role</option>
+          <option value="student">Student</option>
+          <option value="staff">Staff</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" id="loginEmail" placeholder="Enter your email" required />
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter your password" required />
+      </div>
+
+      <button type="submit" class="login-btn">Login</button>
+
+      <p class="toggle-text">
+        Don’t have an account?
+        <a href="#" id="showSignup">Sign up</a>
+      </p>
+    </form>
+
+    <!-- SIGNUP FORM -->
+    <form id="signupForm" style="display: none;">
+      <div class="input-group">
+        <label for="signupRole">Register As</label>
+        <select id="signupRole" required>
+          <option value="">Select Role</option>
+          <option value="student">Student</option>
+          <option value="staff">Staff</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>Full Name</label>
+        <input type="text" id="signupName" placeholder="Enter your full name" required />
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" id="signupEmail" placeholder="Enter your email" required />
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="signupPassword" placeholder="Create a password" required />
+      </div>
+
+      <button type="submit" class="login-btn">Sign Up</button>
+
+      <p class="toggle-text">
+        Already have an account?
+        <a href="#" id="showLogin">Login here</a>
+      </p>
+    </form>
+<a href="index.html" class="back-home-btn">← Back to Home</a>
+    <p class="login-footer">© 2025 Mbosco University</p>
+  </div>
+
+  <script src="javascript/login.js"></script>
+</body>
+</html>
